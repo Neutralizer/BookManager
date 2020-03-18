@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.books</groupId>
-	<artifactId>BookManipulator</artifactId>
+	<artifactId>BookManager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>BookManipulator</name>
-	<description>Book Manipulator for managing books</description>
+	<name>BookManager</name>
+	<description>Book Manager for manipulating books</description>
 
 	<properties>
 		<java.version>1.8</java.version>
