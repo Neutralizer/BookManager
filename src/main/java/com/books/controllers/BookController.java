@@ -1,4 +1,4 @@
-package com.books.BookManipulator.controllers;
+package com.books.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
