@@ -9,6 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ *
+ * @author Neutralizer
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,7 +24,7 @@ public class Book {
     @GeneratedValue
     private int id;
     @NonNull
-    private String name;
+    private String title;
     @NonNull
     private String summary;
     @NonNull
