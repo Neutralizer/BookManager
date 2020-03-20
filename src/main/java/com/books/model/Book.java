@@ -26,6 +26,8 @@ public class Book {
     @NonNull
     private String title;
     @NonNull
+    private String author;
+    @NonNull
     private String summary;
     @NonNull
     private double rating;
