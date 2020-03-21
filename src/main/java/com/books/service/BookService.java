@@ -26,7 +26,7 @@ public class BookService {
         return (List<Book>) repository.findAll();
     }
 
-    public Optional<Book> getBookById(int id){
+    public Optional<Book> getBookById(int id){//negative error check and null check
         return repository.findById(id);
     }
 
@@ -34,8 +34,8 @@ public class BookService {
         return repository.findByTitle(name);
     }
 
-    public void deleteBook(Book book){
-        repository.delete(book);
+    public void deleteBook(int id){
+        repository.deleteById(id);
     }
 
 
