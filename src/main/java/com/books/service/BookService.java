@@ -30,8 +30,8 @@ public class BookService {
         return repository.findById(id);
     }
 
-    public List<Book> getBookByTitle(String name){
-        return repository.findByTitle(name);
+    public List<Book> getBookByTitleContaining(String titleContaining){
+        return repository.findByTitleContaining(titleContaining);
     }
 
     public void deleteBook(int id){

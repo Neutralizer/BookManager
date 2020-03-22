@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.util.StringUtils.isEmpty;
+
 @Controller
 @RequestMapping("/library")
 public class BookController {
@@ -23,37 +25,31 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping(path = "/hello")
-    public ResponseEntity<String> greeting(){
-        return new ResponseEntity<>("Hello", HttpStatus.OK);
-    }
-
     @GetMapping(path = "/books")
-    public ResponseEntity<List<Book>> getAllBooks(){
-        List<Book> allBooks = bookService.getAllBooks();
-        return new ResponseEntity<>(allBooks,HttpStatus.OK);
+    public ResponseEntity<List<Book>> getAllBooks(@RequestParam(required = false) String titleContaining){
+        List<Book> booksList;
+        if(!isEmpty(titleContaining)){
+            booksList = bookService.getBookByTitleContaining(titleContaining);
+        } else {
+            booksList = bookService.getAllBooks();
+        }
+        return new ResponseEntity<>(booksList,HttpStatus.OK);
     }
 
     @GetMapping(path = "/books/{id}")
-    public ResponseEntity<Optional<Book>> getBookById(int id){
+    public ResponseEntity<Optional<Book>> getBookById(@PathVariable int id){
         Optional<Book> bookById = bookService.getBookById(id);
         return new ResponseEntity<>(bookById,HttpStatus.OK);
     }
 
-    @GetMapping(path = "/books/{title}")
-    public ResponseEntity<List<Book>> getBookById(String title){
-        List<Book> bookByTitle = bookService.getBookByTitle(title);
-        return new ResponseEntity<>(bookByTitle, HttpStatus.OK);
-    }
-
-    @PostMapping("/books")
-    public ResponseEntity addBook(@RequestParam Book book){
+    @PostMapping(path = "/books", consumes = "application/json")
+    public ResponseEntity addBook(@RequestBody Book book){
         bookService.saveBook(book);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/books/{id}")
-    public ResponseEntity deleteBook(int id){
+    public ResponseEntity deleteBook(@PathVariable int id){
         bookService.deleteBook(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
