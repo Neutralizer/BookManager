@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
-public class BookManipulatorApplication {
+public class BookManagerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BookManipulatorApplication.class, args);
+		SpringApplication.run(BookManagerApplication.class, args);
 	}
 
 
