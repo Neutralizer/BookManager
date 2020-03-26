@@ -13,7 +13,7 @@ import java.util.Optional;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
- * Controller layer class for book app
+ * Controller layer class for book app.
  */
 @RestController
 @RequestMapping("/library")
@@ -28,9 +28,9 @@ public class BookController {
     }
 
     /**
-     * Retrieves all books from the repo
-     * @param titleContaining Optional param for filtering books by part of the title name
-     * @return all books / all books with the given string contained in the title name (if param is provided)
+     * Retrieves all books from the repo.
+     * @param titleContaining optional param for filtering books by part of the title name.
+     * @return all books / all books with the given string contained in the title name (if param is provided).
      */
     @GetMapping(path = "/books", produces = "application/json")
     public ResponseEntity<List<Book>> getAllBooks(@RequestParam(required = false) String titleContaining){
@@ -44,9 +44,9 @@ public class BookController {
     }
 
     /**
-     * Retrieves a book by its id
-     * @param id the id of the book to be retrieved
-     * @return the book with the specified id
+     * Retrieves a book by its id.
+     * @param id the id of the book to be retrieved.
+     * @return the book with the specified id.
      */
     @GetMapping(path = "/books/{id}")
     public ResponseEntity<Optional<Book>> getBookById(@PathVariable int id){
@@ -55,9 +55,9 @@ public class BookController {
     }
 
     /**
-     * Saves new book
-     * @param book the book to be persisted
-     * @return Status OK if successful
+     * Saves new book.
+     * @param book the book to be persisted.
+     * @return Status OK if successful.
      */
     @PostMapping(path = "/books", consumes = "application/json")
     public ResponseEntity addBook(@RequestBody Book book){
@@ -66,9 +66,9 @@ public class BookController {
     }
 
     /**
-     * Deletes a book from the repo
-     * @param id the id of the book to be deleted
-     * @return Status OK if successful
+     * Deletes a book from the repo.
+     * @param id the id of the book to be deleted.
+     * @return Status OK if successful.
      */
     @DeleteMapping("/books/{id}")
     public ResponseEntity deleteBook(@PathVariable int id){
