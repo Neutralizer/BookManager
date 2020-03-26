@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repo layer with spring data jpa
+ */
 @Repository
 public interface BookRepository extends CrudRepository<Book, Integer> {
 
