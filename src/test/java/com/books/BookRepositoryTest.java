@@ -47,7 +47,7 @@ public class BookRepositoryTest {
 
     @Test
     public void whenFindAllByTitleNameContains_thenReturnBooks_AndCheckMoreThanOneMatch() {
-        List<Book> found =  bookRepository.findByTitleContaining("The");
+        List<Book> found = bookRepository.findByTitleContaining("The");
         assertThat(found.get(0).getTitle(), containsString("The"));
     }
 
@@ -101,7 +101,7 @@ public class BookRepositoryTest {
 
         bookRepository.deleteById(found.get(0).getId());
 
-        List<Book> foundEmpty =  bookRepository.findByTitleContaining("Delete");
+        List<Book> foundEmpty = bookRepository.findByTitleContaining("Delete");
 
         assertThat(foundEmpty.size(), is(0));
     }
