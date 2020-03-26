@@ -2,14 +2,12 @@ package com.books;
 
 import com.books.dao.BookRepository;
 import com.books.model.Book;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,7 +17,6 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @ActiveProfiles("dev")
-@RunWith(SpringRunner.class)
 @DataJpaTest()
 @ContextConfiguration(classes = BookManagerApplication.class)
 public class BookRepositoryTest {
@@ -44,13 +41,13 @@ public class BookRepositoryTest {
 
     @Test
     public void whenFindAllByTitleNameContains_thenReturnBooks_AndCheckNameContains() {
-        List<Book> found = (List<Book>) bookRepository.findByTitleContaining("Hobbit");
+        List<Book> found = bookRepository.findByTitleContaining("Hobbit");
         assertThat(found.get(0).getTitle(), containsString("Hobbit"));
     }
 
     @Test
     public void whenFindAllByTitleNameContains_thenReturnBooks_AndCheckMoreThanOneMatch() {
-        List<Book> found = (List<Book>) bookRepository.findByTitleContaining("The");
+        List<Book> found =  bookRepository.findByTitleContaining("The");
         assertThat(found.get(0).getTitle(), containsString("The"));
     }
 
@@ -71,7 +68,7 @@ public class BookRepositoryTest {
         testEntityManager.persist(new Book("Saved Title", "Saved Author", "Saved Summary 22", 2.2));
         testEntityManager.flush();
 
-        List<Book> found = (List<Book>) bookRepository.findByTitleContaining("Saved");
+        List<Book> found = bookRepository.findByTitleContaining("Saved");
 
         assertThat(found.get(0).getTitle(), containsString("Saved"));
     }
@@ -81,7 +78,7 @@ public class BookRepositoryTest {
         testEntityManager.persist(new Book("Saved Title", "Saved Author", "Saved Summary 22", 2.2));
         testEntityManager.flush();
 
-        List<Book> found = (List<Book>) bookRepository.findByTitleContaining("Saved");
+        List<Book> found = bookRepository.findByTitleContaining("Saved");
 
         Book book = found.get(0);
         book.setTitle("Updated Title");
@@ -100,11 +97,11 @@ public class BookRepositoryTest {
         testEntityManager.persist(new Book("Delete Title", "Delete Author", "Delete Summary 22", 2.2));
         testEntityManager.flush();
 
-        List<Book> found = (List<Book>) bookRepository.findByTitleContaining("Delete");
+        List<Book> found = bookRepository.findByTitleContaining("Delete");
 
         bookRepository.deleteById(found.get(0).getId());
 
-        List<Book> foundEmpty = (List<Book>) bookRepository.findByTitleContaining("Delete");
+        List<Book> foundEmpty =  bookRepository.findByTitleContaining("Delete");
 
         assertThat(foundEmpty.size(), is(0));
     }

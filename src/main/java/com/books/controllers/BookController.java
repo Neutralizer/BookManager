@@ -5,7 +5,6 @@ import com.books.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.Optional;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
-@Controller
+@RestController
 @RequestMapping("/library")
 public class BookController {
 
@@ -25,7 +24,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping(path = "/books")
+    @GetMapping(path = "/books", produces = "application/json")
     public ResponseEntity<List<Book>> getAllBooks(@RequestParam(required = false) String titleContaining){
         List<Book> booksList;
         if(!isEmpty(titleContaining)){
