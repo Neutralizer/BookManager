@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * POJO layer for book app
+ * POJO layer for book app.
  * @author Neutralizer
  */
 

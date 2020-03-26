@@ -10,7 +10,7 @@ import java.util.Optional;
 
 
 /**
- * Service layer of Book app
+ * Service layer of Book app.
  */
 @Service
 public class BookService {
