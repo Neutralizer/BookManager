@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,8 +34,8 @@ public class BookServiceTest {
     @Test
     public void getAllBooksNotNull() {
         List<Book> allBooks = new ArrayList<>();
-        allBooks.add(new Book("Title", "Author", "Summary 22", 2.2));
-        allBooks.add(new Book("Title Second", "Author Second", "Summary 22 Second", 3.2));
+        allBooks.add(new Book("Title", "Author", "Summary 22", 2));
+        allBooks.add(new Book("Title Second", "Author Second", "Summary 22 Second", 3 ));
 
         when(bookRepository.findAll()).thenReturn(allBooks);
 
@@ -44,7 +45,7 @@ public class BookServiceTest {
 
     @Test
     public void saveBookCheckPresent(){
-        Book book = new Book("Title", "Author", "Summary 22", 2.2);
+        Book book = new Book("Title", "Author", "Summary 22", 2 );
         bookService.saveBook(book);
 
         verify(bookRepository).save(book);
@@ -53,7 +54,7 @@ public class BookServiceTest {
 
     @Test
     public void getBookById(){
-        Book book = new Book("Title", "Author", "Summary 22", 2.2);
+        Book book = new Book("Title", "Author", "Summary 22", 2 );
 
         when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
 
@@ -64,7 +65,7 @@ public class BookServiceTest {
 
     @Test
     public void getBookByTitleContaining(){
-        Book book = new Book("Title", "Author", "Summary 22", 2.2);
+        Book book = new Book("Title", "Author", "Summary 22", 2 );
         List<Book> books = new ArrayList<>();
         books.add(book);
 
@@ -77,10 +78,36 @@ public class BookServiceTest {
 
     @Test
     public void deleteBook(){
-        Book book = new Book("Title", "Author", "Summary 22", 2.2);
+        Book book = new Book("Title", "Author", "Summary 22", 2 );
         bookService.deleteBook(book.getId());
 
         verify(bookRepository).deleteById(book.getId());
+    }
+
+    @Test
+    public void addRating(){
+        Book book = new Book("Title", "Author", "Summary 22", 2 );
+
+        when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
+        bookService.addRating(book.getId());
+        verify(bookRepository).save(book);
+
+        assertThat(book.getRating(), is(3));
+
+
+    }
+
+    @Test
+    public void removeRating(){
+        Book book = new Book("Title", "Author", "Summary 22", 2 );
+
+        when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
+        bookService.removeRating(book.getId());
+        verify(bookRepository).save(book);
+
+        assertThat(book.getRating(), is(1));
+
+
     }
 
 }
