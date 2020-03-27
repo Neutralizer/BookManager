@@ -27,8 +27,8 @@ public class BookRepositoryTest {
 
     @Test
     public void saveAnd_whenFindAll_thenReturnBooks_AndCheckSize() {
-        testEntityManager.persist(new Book("Book Title", "Book Author", "Book Summary 22", 2.2));
-        testEntityManager.persist(new Book("Second Book Title", "Second Book Author", "Second Book Summary 33", 3.3));
+        testEntityManager.persist(new Book("Book Title", "Book Author", "Book Summary 22", 2));
+        testEntityManager.persist(new Book("Second Book Title", "Second Book Author", "Second Book Summary 33", 3));
         testEntityManager.flush();
 
         List<Book> found = (List<Book>) bookRepository.findAll();
@@ -63,7 +63,7 @@ public class BookRepositoryTest {
 
     @Test
     public void whenAdd_thenCheckIfTitleIsAdded() {
-        testEntityManager.persist(new Book("Saved Title", "Saved Author", "Saved Summary 22", 2.2));
+        testEntityManager.persist(new Book("Saved Title", "Saved Author", "Saved Summary 22", 2));
         testEntityManager.flush();
 
         List<Book> found = bookRepository.findByTitleContaining("Saved");
@@ -73,7 +73,7 @@ public class BookRepositoryTest {
 
     @Test
     public void whenAdd_thenUpdate_AndCheckIfTitleIsUpdated() {
-        testEntityManager.persist(new Book("Saved Title", "Saved Author", "Saved Summary 22", 2.2));
+        testEntityManager.persist(new Book("Saved Title", "Saved Author", "Saved Summary 22", 2));
         testEntityManager.flush();
 
         List<Book> found = bookRepository.findByTitleContaining("Saved");
@@ -92,7 +92,7 @@ public class BookRepositoryTest {
 
     @Test
     public void whenAdd_thenDelete_AndCheckIfDeleted() {
-        testEntityManager.persist(new Book("Delete Title", "Delete Author", "Delete Summary 22", 2.2));
+        testEntityManager.persist(new Book("Delete Title", "Delete Author", "Delete Summary 22", 2));
         testEntityManager.flush();
 
         List<Book> found = bookRepository.findByTitleContaining("Delete");

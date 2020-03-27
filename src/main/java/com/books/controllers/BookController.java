@@ -75,5 +75,17 @@ public class BookController {
         bookService.deleteBook(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/books/{id}/add_rating")
+    public ResponseEntity incrementRating(@PathVariable int id){
+        bookService.addRating(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/books/{id}/remove_rating")
+    public ResponseEntity decrementRating(@PathVariable int id){
+        bookService.removeRating(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
 

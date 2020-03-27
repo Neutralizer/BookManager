@@ -21,8 +21,8 @@ public class BookManagerApplication {
 	@Bean
 	CommandLineRunner initData(BookRepository bookRepository){
 		return args -> {
-			bookRepository.save(new Book("The Hobbit", "Tolkien", "Short sneaky guy gets taken on an adventure", 4.2));
-			bookRepository.save(new Book("The Expanse", "James Corey", "Alien organism appears in the solar system", 0.1));
+			bookRepository.save(new Book("The Hobbit", "Tolkien", "Short sneaky guy gets taken on an adventure", 4));
+			bookRepository.save(new Book("The Expanse", "James Corey", "Alien organism appears in the solar system", 0));
 		};
 	}
 }
