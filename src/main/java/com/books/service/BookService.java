@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -62,6 +63,29 @@ public class BookService {
      */
     public void deleteBook(int id){
         repository.deleteById(id);
+    }
+
+    /**
+     * Adds rating to a book
+     * @param id the id of the book, whose rating will be increased
+     */
+    public void addRating(int id){
+        modifyRating(id, + 1);
+    }
+
+    /**
+     * Removes rating from a book
+     * @param id the id of the book, whose rating will be decreased
+     */
+    public void removeRating(int id){
+        modifyRating(id, - 1);
+    }
+
+    private void modifyRating(int id , int modifyRating) {
+        Optional<Book> byId = repository.findById(id);
+        int rating = byId.orElseThrow(NoSuchElementException::new).getRating();
+        byId.get().setRating(rating + modifyRating);
+        repository.save(byId.get());
     }
 
 
