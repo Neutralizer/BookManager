@@ -42,8 +42,8 @@ public class BookControllerTest {
     public void getAllBooks() throws Exception {
 
         ArrayList<Book> allBooks = new ArrayList<>();
-        allBooks.add(new Book("Book Title", "Book Author", "Book Summary 22", 2.2));
-        allBooks.add(new Book("Book Title Second", "Book Author Second", "Book Summary 23 Second", 2.3));
+        allBooks.add(new Book("Book Title", "Book Author", "Book Summary 22", 2 ));
+        allBooks.add(new Book("Book Title Second", "Book Author Second", "Book Summary 23 Second", 2 ));
 
         when(bookService.getAllBooks()).thenReturn(allBooks);
         String uri = UriComponentsBuilder.newInstance().path("/library/books").build().toUriString();
@@ -61,8 +61,8 @@ public class BookControllerTest {
     public void getAllBooksByTitleContaining() throws Exception {
 
         ArrayList<Book> allBooks = new ArrayList<>();
-        allBooks.add(new Book("Book Title", "Book Author", "Book Summary 22", 2.2));
-        allBooks.add(new Book("Book Title Second", "Book Author Second", "Book Summary 23 Second", 2.3));
+        allBooks.add(new Book("Book Title", "Book Author", "Book Summary 22", 2 ));
+        allBooks.add(new Book("Book Title Second", "Book Author Second", "Book Summary 23 Second", 2 ));
 
         when(bookService.getBookByTitleContaining("Title")).thenReturn(allBooks);
 
@@ -82,7 +82,7 @@ public class BookControllerTest {
     public void getSingleBook() throws Exception {
         int id = 1;
         Book book = new Book("Book Title Second",
-                "Book Author Second", "Book Summary 23 Second", 2.3);
+                "Book Author Second", "Book Summary 23 Second", 2 );
         when(bookService.getBookById(id)).thenReturn(Optional.of(book));
         String uri = UriComponentsBuilder.newInstance().path("/library/books/{id}")
                 .buildAndExpand(id).toUriString();
@@ -105,16 +105,32 @@ public class BookControllerTest {
     }
 
     @Test
-    public void SaveBook() throws Exception {
+    public void saveBook() throws Exception {
         int id = 1;
         Book book = new Book("Book Title Third",
-                "Book Author Third", "Book Summary 34 Third", 3.4);
+                "Book Author Third", "Book Summary 34 Third", 3 );
 
         String json = new Gson().toJson(book);
         String uri = UriComponentsBuilder.newInstance().path("/library/books/")
                 .build().toUriString();
         mockMvc.perform(post(uri).content(json).accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)).andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void addRating() throws Exception {
+        String uri = UriComponentsBuilder.newInstance().path("/library/books/1/add_rating")
+                .build().toUriString();
+        mockMvc.perform(post(uri)).andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void removeRating() throws Exception {
+        String uri = UriComponentsBuilder.newInstance().path("/library/books/1/remove_rating")
+                .build().toUriString();
+        mockMvc.perform(post(uri)).andDo(print())
                 .andExpect(status().isOk());
     }
 
