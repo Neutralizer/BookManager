@@ -28,7 +28,7 @@ public class Book {
     @NonNull
     private String summary;
     @NonNull
-    private double rating;
+    private int rating;
 
 
 }
