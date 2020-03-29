@@ -12,6 +12,9 @@ import java.util.Optional;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
+/**
+ * Controller layer class for book app.
+ */
 @RestController
 @RequestMapping("/library")
 public class BookController {
@@ -24,6 +27,11 @@ public class BookController {
         this.bookService = bookService;
     }
 
+    /**
+     * Retrieves all books from the repo.
+     * @param titleContaining optional param for filtering books by part of the title name.
+     * @return all books / all books with the given string contained in the title name (if param is provided).
+     */
     @GetMapping(path = "/books", produces = "application/json")
     public ResponseEntity<List<Book>> getAllBooks(@RequestParam(required = false) String titleContaining){
         List<Book> booksList;
@@ -35,18 +43,33 @@ public class BookController {
         return new ResponseEntity<>(booksList,HttpStatus.OK);
     }
 
+    /**
+     * Retrieves a book by its id.
+     * @param id the id of the book to be retrieved.
+     * @return the book with the specified id.
+     */
     @GetMapping(path = "/books/{id}")
     public ResponseEntity<Optional<Book>> getBookById(@PathVariable int id){
         Optional<Book> bookById = bookService.getBookById(id);
         return new ResponseEntity<>(bookById,HttpStatus.OK);
     }
 
+    /**
+     * Saves new book.
+     * @param book the book to be persisted.
+     * @return Status OK if successful.
+     */
     @PostMapping(path = "/books", consumes = "application/json")
     public ResponseEntity addBook(@RequestBody Book book){
         bookService.saveBook(book);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Deletes a book from the repo.
+     * @param id the id of the book to be deleted.
+     * @return Status OK if successful.
+     */
     @DeleteMapping("/books/{id}")
     public ResponseEntity deleteBook(@PathVariable int id){
         bookService.deleteBook(id);
