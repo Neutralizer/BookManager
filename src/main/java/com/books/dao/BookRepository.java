@@ -1,18 +1,19 @@
 package com.books.dao;
 
 import com.books.model.Book;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
- * Repo layer with spring data jpa. 
+ * Repo layer with spring data jpa.
  */
 @Repository
 public interface BookRepository extends PagingAndSortingRepository<Book, Integer> {
 
-    List<Book> findByTitleContaining(String title);
+    List<Book> findByTitleContaining(String title, Pageable pageable);
 
     List<Book> findByAuthor(String author);
 
