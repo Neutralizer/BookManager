@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.hamcrest.core.StringContains.containsString;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -45,7 +46,7 @@ public class BookControllerTest {
         allBooks.add(new Book("Book Title", "Book Author", "Book Summary 22", 2 ));
         allBooks.add(new Book("Book Title Second", "Book Author Second", "Book Summary 23 Second", 2 ));
 
-        when(bookService.getAllBooks()).thenReturn(allBooks);
+        when(bookService.getAllBooksByPage(anyInt(),anyInt())).thenReturn(allBooks);
         String uri = UriComponentsBuilder.newInstance().path("/library/books").build().toUriString();
 
         mockMvc.perform(get(uri)).andDo(print()).andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -64,7 +65,7 @@ public class BookControllerTest {
         allBooks.add(new Book("Book Title", "Book Author", "Book Summary 22", 2 ));
         allBooks.add(new Book("Book Title Second", "Book Author Second", "Book Summary 23 Second", 2 ));
 
-        when(bookService.getBookByTitleContaining("Title")).thenReturn(allBooks);
+        when(bookService.getBookByTitleContaining("Title",0,20)).thenReturn(allBooks);
 
         String uri = UriComponentsBuilder.newInstance().path("/library/books").query("titleContaining={titleContaining}")
                 .buildAndExpand("Title").toUriString();

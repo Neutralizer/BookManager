@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
@@ -39,18 +41,21 @@ public class BookRepositoryTest {
 
     @Test
     public void whenFindAllByTitleNameContains_thenReturnBooks_AndCheckNameContains() {
-        List<Book> found = bookRepository.findByTitleContaining("Hobbit");
+        Pageable pageable = PageRequest.of(0, 20);
+        List<Book> found = bookRepository.findByTitleContaining("Hobbit", pageable);
         assertThat(found.get(0).getTitle(), containsString("Hobbit"));
     }
 
     @Test
     public void whenFindAllByTitleNameContains_thenReturnBooks_AndCheckMoreThanOneMatch() {
-        List<Book> found = bookRepository.findByTitleContaining("The");
+        Pageable pageable = PageRequest.of(0, 20);
+        List<Book> found = bookRepository.findByTitleContaining("The", pageable);
         assertThat(found.get(0).getTitle(), containsString("The"));
     }
 
     @Test
     public void whenGetById_thenCheckNotNull() {
+        Pageable pageable = PageRequest.of(0, 20);
         Optional<Book> byId = bookRepository.findById(0);
         assertThat(byId, notNullValue());
     }
@@ -66,7 +71,8 @@ public class BookRepositoryTest {
         testEntityManager.persist(new Book("Saved Title", "Saved Author", "Saved Summary 22", 2));
         testEntityManager.flush();
 
-        List<Book> found = bookRepository.findByTitleContaining("Saved");
+        Pageable pageable = PageRequest.of(0, 20);
+        List<Book> found = bookRepository.findByTitleContaining("Saved", pageable);
 
         assertThat(found.get(0).getTitle(), containsString("Saved"));
     }
@@ -76,7 +82,8 @@ public class BookRepositoryTest {
         testEntityManager.persist(new Book("Saved Title", "Saved Author", "Saved Summary 22", 2));
         testEntityManager.flush();
 
-        List<Book> found = bookRepository.findByTitleContaining("Saved");
+        Pageable pageable = PageRequest.of(0, 20);
+        List<Book> found = bookRepository.findByTitleContaining("Saved", pageable);
 
         Book book = found.get(0);
         book.setTitle("Updated Title");
@@ -95,11 +102,12 @@ public class BookRepositoryTest {
         testEntityManager.persist(new Book("Delete Title", "Delete Author", "Delete Summary 22", 2));
         testEntityManager.flush();
 
-        List<Book> found = bookRepository.findByTitleContaining("Delete");
+        Pageable pageable = PageRequest.of(0, 20);
+        List<Book> found = bookRepository.findByTitleContaining("Delete", pageable);
 
         bookRepository.deleteById(found.get(0).getId());
 
-        List<Book> foundEmpty = bookRepository.findByTitleContaining("Delete");
+        List<Book> foundEmpty = bookRepository.findByTitleContaining("Delete", pageable);
 
         assertThat(foundEmpty.size(), is(0));
     }
