@@ -7,6 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +40,12 @@ public class BookServiceTest {
         List<Book> allBooks = new ArrayList<>();
         allBooks.add(new Book("Title", "Author", "Summary 22", 2));
         allBooks.add(new Book("Title Second", "Author Second", "Summary 22 Second", 3 ));
+        Page<Book> pBooks = new PageImpl<Book>(allBooks);
 
-        when(bookRepository.findAll()).thenReturn(allBooks);
+        Pageable pageable = PageRequest.of(0, 20);
+        when(bookRepository.findAll(pageable)).thenReturn(pBooks);
 
-        List<Book> found = bookService.getAllBooks();
+        List<Book> found = bookService.getAllBooksByPage(0,20);
         assertNotNull(found);
     }
 
@@ -69,9 +75,10 @@ public class BookServiceTest {
         List<Book> books = new ArrayList<>();
         books.add(book);
 
-        when(bookRepository.findByTitleContaining(book.getTitle())).thenReturn(books);
+        Pageable pageable = PageRequest.of(0, 20);
+        when(bookRepository.findByTitleContaining(book.getTitle(), pageable)).thenReturn(books);
 
-        List<Book> found = bookService.getBookByTitleContaining("Title");
+        List<Book> found = bookService.getBookByTitleContaining("Title",0,20);
 
         assertThat(found.get(0).getTitle(), containsString("Title"));
     }
@@ -89,7 +96,7 @@ public class BookServiceTest {
         Book book = new Book("Title", "Author", "Summary 22", 2 );
 
         when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
-        bookService.addRating(book.getId());
+        bookService.increaseRating(book.getId());
         verify(bookRepository).save(book);
 
         assertThat(book.getRating(), is(3));
@@ -102,7 +109,7 @@ public class BookServiceTest {
         Book book = new Book("Title", "Author", "Summary 22", 2 );
 
         when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
-        bookService.removeRating(book.getId());
+        bookService.decreaseRating(book.getId());
         verify(bookRepository).save(book);
 
         assertThat(book.getRating(), is(1));
