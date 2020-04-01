@@ -41,7 +41,7 @@ public class BookService {
      * @param entriesPerPage Number of entries per page.
      * @return All books in the current page with requested page size.
      */
-    public List<Book> getAllBooks(int pageNum, int entriesPerPage) {
+    public List<Book> getAllBooksByPage(int pageNum, int entriesPerPage) {
         Pageable pageable = PageRequest.of(pageNum, entriesPerPage);
         return repository.findAll(pageable).toList();
     }
@@ -81,7 +81,7 @@ public class BookService {
      *
      * @param id the id of the book, whose rating will be increased
      */
-    public void addRating(int id) {
+    public void increaseRating(int id) {
         modifyRating(id, +1);
     }
 
@@ -90,7 +90,7 @@ public class BookService {
      *
      * @param id the id of the book, whose rating will be decreased
      */
-    public void removeRating(int id) {
+    public void decreaseRating(int id) {
         modifyRating(id, -1);
     }
 

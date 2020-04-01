@@ -33,7 +33,7 @@ public class BookController {
      * @return all books / all books with the given string contained in the title name (if param is provided).
      */
     @GetMapping(path = "/books", produces = "application/json")
-    public ResponseEntity<List<Book>> getAllBooks(
+    public ResponseEntity<List<Book>> getBooks(
             @RequestParam(required = false) String titleContaining,
             @RequestParam(required = false, defaultValue = "0") int pageNum,
             @RequestParam(required = false, defaultValue = "20") int entriesPerPage){
@@ -41,7 +41,7 @@ public class BookController {
         if(!isEmpty(titleContaining)){
             booksList = bookService.getBookByTitleContaining(titleContaining,pageNum,entriesPerPage);
         } else {
-            booksList = bookService.getAllBooks(pageNum,entriesPerPage);
+            booksList = bookService.getAllBooksByPage(pageNum,entriesPerPage);
         }
         return new ResponseEntity<>(booksList,HttpStatus.OK);
     }
@@ -86,7 +86,7 @@ public class BookController {
      */
     @PostMapping("/books/{id}/add_rating")
     public ResponseEntity incrementRating(@PathVariable int id){
-        bookService.addRating(id);
+        bookService.increaseRating(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -97,7 +97,7 @@ public class BookController {
      */
     @PostMapping("/books/{id}/remove_rating")
     public ResponseEntity decrementRating(@PathVariable int id){
-        bookService.removeRating(id);
+        bookService.decreaseRating(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

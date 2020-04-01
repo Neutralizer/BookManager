@@ -45,7 +45,7 @@ public class BookServiceTest {
         Pageable pageable = PageRequest.of(0, 20);
         when(bookRepository.findAll(pageable)).thenReturn(pBooks);
 
-        List<Book> found = bookService.getAllBooks(0,20);
+        List<Book> found = bookService.getAllBooksByPage(0,20);
         assertNotNull(found);
     }
 
@@ -96,7 +96,7 @@ public class BookServiceTest {
         Book book = new Book("Title", "Author", "Summary 22", 2 );
 
         when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
-        bookService.addRating(book.getId());
+        bookService.increaseRating(book.getId());
         verify(bookRepository).save(book);
 
         assertThat(book.getRating(), is(3));
@@ -109,7 +109,7 @@ public class BookServiceTest {
         Book book = new Book("Title", "Author", "Summary 22", 2 );
 
         when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
-        bookService.removeRating(book.getId());
+        bookService.decreaseRating(book.getId());
         verify(bookRepository).save(book);
 
         assertThat(book.getRating(), is(1));
