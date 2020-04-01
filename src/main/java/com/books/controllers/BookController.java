@@ -80,7 +80,7 @@ public class BookController {
     }
 
     /**
-     * Increment the rating of a book
+     * Increment the rating of a book.
      * @param id the id of the book
      * @return Status OK if successful.
      */
