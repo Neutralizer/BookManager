@@ -2,11 +2,14 @@ package com.books.controllers;
 
 import com.books.model.Book;
 import com.books.service.BookService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +23,7 @@ import static org.springframework.util.StringUtils.isEmpty;
 public class BookController {
 
 
+    private static final Logger LOG = LoggerFactory.getLogger(BookController.class.getName());
     private BookService bookService;
 
     @Autowired
@@ -99,6 +103,15 @@ public class BookController {
     public ResponseEntity decrementRating(@PathVariable int id){
         bookService.decreaseRating(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/elk")
+    public ResponseEntity generateLog() {
+        String response = "Generating log " + new Date();
+        LOG.info(response);
+        LOG.debug(response);
+        LOG.error(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
 
