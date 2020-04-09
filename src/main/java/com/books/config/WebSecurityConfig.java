@@ -19,6 +19,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
+                    .antMatchers("/actuator/**").hasRole("ADMIN")
                     .antMatchers("/","/library/books").permitAll()
                     .anyRequest().authenticated()
                     .and()
@@ -28,6 +29,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .logout()
                     .permitAll();
+
+//        http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/**").hasRole("USER").and().formLogin();
     }
 
     @Bean
@@ -38,7 +42,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .password("password")
                 .roles("USER")
                 .build();
-        return new InMemoryUserDetailsManager(user);
+
+        UserDetails admin = User.withDefaultPasswordEncoder()
+                .username("admin")
+                .password("password")
+                .roles("ADMIN", "USER")
+                .build();
+        return new InMemoryUserDetailsManager(user, admin);
     }
 
 }
