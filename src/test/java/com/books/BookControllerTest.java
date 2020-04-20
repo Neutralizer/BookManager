@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -39,6 +40,9 @@ public class BookControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+
+
+    @WithMockUser("USER")
     @Test
     public void getAllBooks() throws Exception {
 
@@ -58,6 +62,7 @@ public class BookControllerTest {
                 .andExpect(content().string(containsString("23")));
     }
 
+    @WithMockUser("USER")
     @Test
     public void getAllBooksByTitleContaining() throws Exception {
 
@@ -79,6 +84,7 @@ public class BookControllerTest {
                 .andExpect(content().string(containsString("23")));
     }
 
+    @WithMockUser("USER")
     @Test
     public void getSingleBook() throws Exception {
         int id = 1;
@@ -97,6 +103,7 @@ public class BookControllerTest {
 
     }
 
+    @WithMockUser("USER")
     @Test
     public void deleteSingleQuote() throws Exception {
         String uri = UriComponentsBuilder.newInstance().path("/library/books/{id}")
@@ -105,6 +112,7 @@ public class BookControllerTest {
 
     }
 
+    @WithMockUser("USER")
     @Test
     public void saveBook() throws Exception {
         int id = 1;
@@ -119,6 +127,7 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser("USER")
     @Test
     public void addRating() throws Exception {
         String uri = UriComponentsBuilder.newInstance().path("/library/books/1/add_rating")
@@ -127,6 +136,7 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser("USER")
     @Test
     public void removeRating() throws Exception {
         String uri = UriComponentsBuilder.newInstance().path("/library/books/1/remove_rating")
