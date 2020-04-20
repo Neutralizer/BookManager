@@ -145,4 +145,14 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void getSingleBook_NotLoggedIn401() throws Exception {
+        String uri = UriComponentsBuilder.newInstance().path("/library/books/{id}")
+                .buildAndExpand("1").toUriString();
+
+        mockMvc.perform(get(uri)).andDo(print())
+                .andExpect(status().isUnauthorized())
+                .andReturn();
+    }
+
 }

@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/actuator/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/register").permitAll() //TODO anyone can register as admin
+                .antMatchers(HttpMethod.POST, "/register").permitAll()
                 .antMatchers("/", "/library/books").permitAll()
                 .anyRequest().authenticated()
                 .and()

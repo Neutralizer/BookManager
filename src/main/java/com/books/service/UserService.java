@@ -25,9 +25,11 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    public void save(User user) {
-        userRepository.save(new User(user.getUsername(),
-                passwordEncoder.encode(user.getPassword()),user.getRoles() ));
+    public User save(User user) {
+        User constructedUser = new User(user.getUsername(),
+                passwordEncoder.encode(user.getPassword()), user.getRoles());
+        userRepository.save(constructedUser);
+        return constructedUser;
     }
 
     @Override
