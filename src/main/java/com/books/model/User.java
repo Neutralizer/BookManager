@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * The user pojo to be stored in db
+ */
 @Data
 @Entity
 @AllArgsConstructor

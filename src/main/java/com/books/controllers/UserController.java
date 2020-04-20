@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * User controller for logging in.
+ */
 @RestController
 public class UserController {
 
@@ -19,6 +22,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Registering a new user and saving.
+     * @param user the user to be saved.
+     * @return HttpStatus.CREATED.
+     */
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody User user){
 
