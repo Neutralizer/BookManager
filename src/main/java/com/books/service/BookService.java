@@ -102,4 +102,8 @@ public class BookService {
     }
 
 
+    public List<Book> getBooksByIds(List<Integer> bookIdsLikedByUser, int pageNum, int entriesPerPage) {
+        Pageable pageable = PageRequest.of(pageNum, entriesPerPage);
+        return repository.findAllByIdIn(bookIdsLikedByUser, pageable);
+    }
 }

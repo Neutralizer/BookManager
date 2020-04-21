@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,5 +17,7 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
     List<Book> findByTitleContaining(String title, Pageable pageable);
 
     List<Book> findByAuthor(String author);
+
+    List<Book> findAllByIdIn(Collection<Integer> ids, Pageable pageable);
 
 }
