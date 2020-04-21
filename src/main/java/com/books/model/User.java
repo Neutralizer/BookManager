@@ -44,6 +44,9 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Role> roles;
 
+    @ElementCollection //(fetch = FetchType.EAGER)
+    private List<Integer> likedBooksIds;
+
     public User(){
         this.accountNonExpired = true;
         this.accountNonLocked = true;

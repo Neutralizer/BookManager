@@ -2,6 +2,7 @@ package com.books.controllers;
 
 import com.books.model.Book;
 import com.books.service.BookService;
+import com.books.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,10 +27,12 @@ public class BookController {
 
     private static final Logger LOG = LoggerFactory.getLogger(BookController.class.getName());
     private BookService bookService;
+    private UserService userService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, UserService userService) {
         this.bookService = bookService;
+        this.userService = userService;
     }
 
     /**
@@ -89,8 +93,9 @@ public class BookController {
      * @return Status OK if successful.
      */
     @PostMapping("/books/{id}/add_rating")
-    public ResponseEntity incrementRating(@PathVariable int id){
+    public ResponseEntity incrementRating(Principal principal, @PathVariable int id){
         bookService.increaseRating(id);
+        userService.addLikedBookId(principal.getName(), id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -100,8 +105,9 @@ public class BookController {
      * @return Status OK if successful.
      */
     @PostMapping("/books/{id}/remove_rating")
-    public ResponseEntity decrementRating(@PathVariable int id){
+    public ResponseEntity decrementRating(Principal principal, @PathVariable int id){
         bookService.decreaseRating(id);
+        userService.removeLikedBookId(principal.getName(), id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

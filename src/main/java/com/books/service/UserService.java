@@ -43,7 +43,20 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public List<Integer> getBookIdsLikedByUser() {
-        return null;
+    public List<Integer> getBookIdsLikedByUser(String username) {
+        User user = userRepository.findByUsername(username);
+        return user.getLikedBooksIds();
+    }
+
+    public void addLikedBookId(String username, int bookId) {
+        User user = userRepository.findByUsername(username);
+        user.getLikedBooksIds().add(bookId);
+        userRepository.save(user);
+    }
+
+    public void removeLikedBookId(String username, int bookId) {
+        User user = userRepository.findByUsername(username);
+        user.getLikedBooksIds().remove(bookId);
+        userRepository.save(user);
     }
 }

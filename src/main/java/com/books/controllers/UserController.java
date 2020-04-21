@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -43,15 +43,13 @@ public class UserController {
     }
 
     @GetMapping("/myLikes")
-    public ResponseEntity<List<Book>> getUserLikedBooks(@RequestParam(required = false, defaultValue = "0") int pageNum,
+    public ResponseEntity<List<Book>> getUserLikedBooks(Principal principal,
+                                                        @RequestParam(required = false, defaultValue = "0") int pageNum,
                                                         @RequestParam(required = false, defaultValue = "20") int entriesPerPage){
 
-//        List<Integer> bookIdsLikedByUser = userService.getBookIdsLikedByUser();
-
-        List<Integer> bookIdsLikedByUser = new ArrayList<>();//TODO
-        bookIdsLikedByUser.add(1);
-        bookIdsLikedByUser.add(2);
+        List<Integer> bookIdsLikedByUser = userService.getBookIdsLikedByUser(principal.getName());
         List<Book> booksByIds = bookService.getBooksByIds(bookIdsLikedByUser, pageNum, entriesPerPage);
+
         return new ResponseEntity<>(booksByIds, HttpStatus.OK);
     }
 
