@@ -44,7 +44,7 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Role> roles;
 
-    @ElementCollection //(fetch = FetchType.EAGER)
+    @ElementCollection
     private List<Integer> likedBooksIds;
 
     public User(){
@@ -64,6 +64,7 @@ public class User implements UserDetails {
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
+        likedBooksIds = new ArrayList<>();
     }
 
     @Override

@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 
 @DataJpaTest()
 @ContextConfiguration(classes = {BookManagerApplication.class, BCryptEncoderConfig.class})
@@ -56,6 +57,26 @@ public class UserRepositoryTest {
         User foundUser = userRepository.findByUsername("testUser");
 
         assertThat(foundUser.getPassword(), containsString(user.getPassword()));
+    }
+
+    @Test
+    public void saveAnd_whenFindByUsername_thenReturnUser_AndCheckLikedBooksIds() {
+        List<Role> roles = new ArrayList<>();
+        roles.add(Role.ROLE_USER);
+        User user = new User("test",
+                passwordEncoder.encode("test"), roles);
+
+        List<Integer> ids = new ArrayList<>();
+        ids.add(1);
+        ids.add(2);
+        user.setLikedBooksIds(ids);
+
+        testEntityManager.persist(user);
+        testEntityManager.flush();
+
+        User foundUser = userRepository.findByUsername("test");
+
+        assertThat(foundUser.getLikedBooksIds(), hasSize(2));
     }
 
 }
