@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -113,5 +114,15 @@ public class BookRepositoryTest {
         assertThat(foundEmpty.size(), is(0));
     }
 
+    @Test
+    public void whenFindByIdsIn_thenCheckNotNull() {
+        ArrayList<Integer> bookIds = new ArrayList<>();
+        bookIds.add(1);
+        bookIds.add(2);
+        Pageable pageable = PageRequest.of(0, 20);
+
+        List<Book> byId = bookRepository.findAllByIdIn(bookIds,pageable);
+        assertThat(byId, notNullValue());
+    }
 
 }

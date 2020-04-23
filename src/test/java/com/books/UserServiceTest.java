@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -63,5 +63,21 @@ public class UserServiceTest {
                 () -> userService.loadUserByUsername("notFound"));
     }
 
+    @Test
+    public void getBookIdsLikedByUserCheck(){
+        List<Role> roles = new ArrayList<>();
+        roles.add(Role.ROLE_USER);
+        User user = new User("test", passwordEncoder.encode("test"), roles);
+        List<Integer> ids = new ArrayList<>();
+        ids.add(1);
+        ids.add(2);
+        user.setLikedBooksIds(ids);
+
+        when(userRepository.findByUsername("test")).thenReturn(user);
+
+        UserDetails test = userService.loadUserByUsername("test");
+
+        assertThat(user.getLikedBooksIds(), hasSize(2));
+    }
 
 }
