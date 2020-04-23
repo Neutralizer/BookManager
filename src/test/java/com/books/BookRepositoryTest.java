@@ -1,5 +1,6 @@
 package com.books;
 
+import com.books.config.BCryptEncoderConfig;
 import com.books.dao.BookRepository;
 import com.books.model.Book;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @DataJpaTest()
-@ContextConfiguration(classes = BookManagerApplication.class)
+@ContextConfiguration(classes = {BookManagerApplication.class, BCryptEncoderConfig.class})
 public class BookRepositoryTest {
 
     @Autowired
