@@ -87,6 +87,10 @@ public class User implements UserDetails {
         return enabled;
     }
 
+    /**
+     * Retrieve all current authorities of the user.
+     * @return current authorities of the user.
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -94,6 +98,10 @@ public class User implements UserDetails {
         return authorities;
     }
 
+    /**
+     * Provide additional authority.
+     * @param authority authority to be granted.
+     */
     public void grantAuthority(Role authority){
         if(roles == null){
             roles = new ArrayList<>();

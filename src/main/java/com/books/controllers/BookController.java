@@ -88,7 +88,7 @@ public class BookController {
     }
 
     /**
-     * Increment the rating of a book.
+     * Increment the rating of a book. Also increments the user's rating of the book.
      * @param id the id of the book
      * @return Status OK if successful.
      */
@@ -100,7 +100,7 @@ public class BookController {
     }
 
     /**
-     * Decrement the rating of a book
+     * Decrement the rating of a book. Also decrements the user's rating of the book.
      * @param id the id of the book
      * @return Status OK if successful.
      */
