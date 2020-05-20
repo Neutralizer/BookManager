@@ -70,6 +70,27 @@ public class BookServiceTest {
     }
 
     @Test
+    public void getBooks_ByIds(){
+        Book book = new Book("Title", "Author", "Summary ", 1 );
+        Book book2 = new Book("Title2", "Author2", "Summary 22", 2 );
+        List<Book> books = new ArrayList<>();
+        books.add(book);
+        books.add(book2);
+
+        Pageable pageable = PageRequest.of(0,20);
+
+        ArrayList<Integer> bookIds = new ArrayList<>();
+        bookIds.add(1);
+        bookIds.add(2);
+
+        when(bookRepository.findAllByIdIn(bookIds,pageable)).thenReturn(books);
+
+        List<Book> found = bookService.getBooksByIds(bookIds, 0, 20);
+
+        assertThat(found.get(0).getTitle(), containsString("Title"));
+    }
+
+    @Test
     public void getBookByTitleContaining(){
         Book book = new Book("Title", "Author", "Summary 22", 2 );
         List<Book> books = new ArrayList<>();

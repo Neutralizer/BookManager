@@ -102,4 +102,16 @@ public class BookService {
     }
 
 
+    /**
+     * Retrieves all books with the specified ids
+     *
+     * @param bookIdsLikedByUser list with book ids.
+     * @param pageNum page for pagination.
+     * @param entriesPerPage pagination size - entities per page retrieved.
+     * @return allBooks with specified Ids
+     */
+    public List<Book> getBooksByIds(List<Integer> bookIdsLikedByUser, int pageNum, int entriesPerPage) {
+        Pageable pageable = PageRequest.of(pageNum, entriesPerPage);
+        return repository.findAllByIdIn(bookIdsLikedByUser, pageable);
+    }
 }

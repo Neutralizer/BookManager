@@ -2,6 +2,7 @@ package com.books.controllers;
 
 import com.books.model.Book;
 import com.books.service.BookService;
+import com.books.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,10 +27,12 @@ public class BookController {
 
     private static final Logger LOG = LoggerFactory.getLogger(BookController.class.getName());
     private BookService bookService;
+    private UserService userService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, UserService userService) {
         this.bookService = bookService;
+        this.userService = userService;
     }
 
     /**
@@ -39,8 +43,8 @@ public class BookController {
     @GetMapping(path = "/books", produces = "application/json")
     public ResponseEntity<List<Book>> getBooks(
             @RequestParam(required = false) String titleContaining,
-            @RequestParam(required = false, defaultValue = "0") int pageNum,
-            @RequestParam(required = false, defaultValue = "20") int entriesPerPage){
+            @RequestParam(required = false, defaultValue = "${books.default.pagenum}") int pageNum,
+            @RequestParam(required = false, defaultValue = "${books.default.entriesperpage}") int entriesPerPage){
         List<Book> booksList;
         if(!isEmpty(titleContaining)){
             booksList = bookService.getBookByTitleContaining(titleContaining,pageNum,entriesPerPage);
@@ -84,26 +88,51 @@ public class BookController {
     }
 
     /**
-     * Increment the rating of a book.
+     * Increment the rating of a book. Also increments the user's rating of the book.
      * @param id the id of the book
      * @return Status OK if successful.
      */
     @PostMapping("/books/{id}/add_rating")
-    public ResponseEntity incrementRating(@PathVariable int id){
+    public ResponseEntity incrementRating(Principal principal, @PathVariable int id){
         bookService.increaseRating(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
-     * Decrement the rating of a book
+     * Decrement the rating of a book. Also decrements the user's rating of the book.
      * @param id the id of the book
      * @return Status OK if successful.
      */
     @PostMapping("/books/{id}/remove_rating")
-    public ResponseEntity decrementRating(@PathVariable int id){
+    public ResponseEntity decrementRating(Principal principal, @PathVariable int id){
         bookService.decreaseRating(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /**
+     * Add book to favourites.
+     * @param principal current logged in user.
+     * @param id the id of the book.
+     * @return Status OK if successful.
+     */
+    @PostMapping("/books/{id}/add_favourite")
+    public ResponseEntity addFavouriteBook(Principal principal, @PathVariable int id){
+        userService.addFavouriteBookId(principal.getName(), id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * Remove book from favourites.
+     * @param id the id of the book.
+     * @return Status OK if successful.
+     */
+    @PostMapping("/books/{id}/remove_favourite")
+    public ResponseEntity removeFavouriteBook(Principal principal, @PathVariable int id){
+        userService.removeFavouriteBookId(principal.getName(), id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
     @GetMapping(path = "/elk")
     public ResponseEntity generateLog() {

@@ -44,6 +44,9 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Role> roles;
 
+    @ElementCollection
+    private List<Integer> favouriteBooksIds;
+
     public User(){
         this.accountNonExpired = true;
         this.accountNonLocked = true;
@@ -61,6 +64,7 @@ public class User implements UserDetails {
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
+        favouriteBooksIds = new ArrayList<>();
     }
 
     @Override
@@ -83,6 +87,10 @@ public class User implements UserDetails {
         return enabled;
     }
 
+    /**
+     * Retrieve all current authorities of the user.
+     * @return current authorities of the user.
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -90,6 +98,10 @@ public class User implements UserDetails {
         return authorities;
     }
 
+    /**
+     * Provide additional authority.
+     * @param authority authority to be granted.
+     */
     public void grantAuthority(Role authority){
         if(roles == null){
             roles = new ArrayList<>();

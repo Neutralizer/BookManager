@@ -4,6 +4,7 @@ package com.books;
 import com.books.controllers.BookController;
 import com.books.model.Book;
 import com.books.service.BookService;
+import com.books.service.UserService;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,7 +22,7 @@ import java.util.Optional;
 
 import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -33,6 +34,9 @@ public class BookControllerTest {
 
     @MockBean
     private BookService bookService;
+
+    @MockBean
+    private UserService userService;
 
     @InjectMocks
     private BookController bookController;
@@ -140,6 +144,24 @@ public class BookControllerTest {
     @Test
     public void removeRating() throws Exception {
         String uri = UriComponentsBuilder.newInstance().path("/library/books/1/remove_rating")
+                .build().toUriString();
+        mockMvc.perform(post(uri)).andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser("USER")
+    @Test
+    public void addFavourite() throws Exception {
+        String uri = UriComponentsBuilder.newInstance().path("/library/books/1/add_favourite")
+                .build().toUriString();
+        mockMvc.perform(post(uri)).andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser("USER")
+    @Test
+    public void removeFavourite() throws Exception {
+        String uri = UriComponentsBuilder.newInstance().path("/library/books/1/remove_favourite")
                 .build().toUriString();
         mockMvc.perform(post(uri)).andDo(print())
                 .andExpect(status().isOk());
