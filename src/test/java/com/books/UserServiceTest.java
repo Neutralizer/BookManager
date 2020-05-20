@@ -64,20 +64,20 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getBookIdsLikedByUserCheck(){
+    public void getBookIdsFavouriteByUserCheck(){
         List<Role> roles = new ArrayList<>();
         roles.add(Role.ROLE_USER);
         User user = new User("test", passwordEncoder.encode("test"), roles);
         List<Integer> ids = new ArrayList<>();
         ids.add(1);
         ids.add(2);
-        user.setLikedBooksIds(ids);
+        user.setFavouriteBooksIds(ids);
 
         when(userRepository.findByUsername("test")).thenReturn(user);
 
         UserDetails test = userService.loadUserByUsername("test");
 
-        assertThat(user.getLikedBooksIds(), hasSize(2));
+        assertThat(user.getFavouriteBooksIds(), hasSize(2));
     }
 
 }

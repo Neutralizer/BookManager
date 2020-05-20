@@ -43,21 +43,21 @@ public class UserController {
     }
 
     /**
-     * Retrieves all books liked by the user.
+     * Retrieves all books Favourite by the user.
      * @param principal current logged in user.
      * @param pageNum pagination number.
      * @param entriesPerPage entries per page for pagination.
-     * @return all books liked by the user.
+     * @return all books Favourite by the user.
      */
-    @GetMapping("/myLikes")
-    public ResponseEntity<List<Book>> getUserLikedBooks(Principal principal,
-                                                        @RequestParam(required = false, defaultValue = "${books.default.pagenum}") int pageNum,
-                                                        @RequestParam(required = false, defaultValue = "${books.default.entriesperpage}") int entriesPerPage){
+    @GetMapping("/myFavourites")
+    public ResponseEntity<List<Book>> getUserFavouriteBooks(Principal principal,
+                                                            @RequestParam(required = false, defaultValue = "${books.default.pagenum}") int pageNum,
+                                                            @RequestParam(required = false, defaultValue = "${books.default.entriesperpage}") int entriesPerPage){
 
-        List<Integer> bookIdsLikedByUser = userService.getBookIdsLikedByUser(principal.getName());
-        List<Book> booksByIds = bookService.getBooksByIds(bookIdsLikedByUser, pageNum, entriesPerPage);
+        List<Integer> bookIdsFavouriteByUser = userService.getBookIdsFavouriteByUser(principal.getName());
+        List<Book> booksFavouriteByIds = bookService.getBooksByIds(bookIdsFavouriteByUser, pageNum, entriesPerPage);
 
-        return new ResponseEntity<>(booksByIds, HttpStatus.OK);
+        return new ResponseEntity<>(booksFavouriteByIds, HttpStatus.OK);
     }
 
 }

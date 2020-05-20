@@ -60,7 +60,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void saveAnd_whenFindByUsername_thenReturnUser_AndCheckLikedBooksIds() {
+    public void saveAnd_whenFindByUsername_thenReturnUser_AndCheckFavouriteBooksIds() {
         List<Role> roles = new ArrayList<>();
         roles.add(Role.ROLE_USER);
         User user = new User("test",
@@ -69,14 +69,14 @@ public class UserRepositoryTest {
         List<Integer> ids = new ArrayList<>();
         ids.add(1);
         ids.add(2);
-        user.setLikedBooksIds(ids);
+        user.setFavouriteBooksIds(ids);
 
         testEntityManager.persist(user);
         testEntityManager.flush();
 
         User foundUser = userRepository.findByUsername("test");
 
-        assertThat(foundUser.getLikedBooksIds(), hasSize(2));
+        assertThat(foundUser.getFavouriteBooksIds(), hasSize(2));
     }
 
 }

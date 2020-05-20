@@ -45,7 +45,7 @@ public class User implements UserDetails {
     private List<Role> roles;
 
     @ElementCollection
-    private List<Integer> likedBooksIds;
+    private List<Integer> favouriteBooksIds;
 
     public User(){
         this.accountNonExpired = true;
@@ -64,7 +64,7 @@ public class User implements UserDetails {
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
-        likedBooksIds = new ArrayList<>();
+        favouriteBooksIds = new ArrayList<>();
     }
 
     @Override

@@ -69,7 +69,7 @@ public class UserControllerTest {
 
     @WithMockUser("USER")
     @Test
-    public void getLikedBooks() throws Exception {
+    public void getFavouriteBooks() throws Exception {
 
         ArrayList<Book> allBooks = new ArrayList<>();
         allBooks.add(new Book("Book Title", "Book Author", "Book Summary 22", 2 ));
@@ -79,10 +79,10 @@ public class UserControllerTest {
         bookIds.add(1);
         bookIds.add(2);
 
-        when(userService.getBookIdsLikedByUser("USER")).thenReturn(bookIds);
+        when(userService.getBookIdsFavouriteByUser("USER")).thenReturn(bookIds);
         when(bookService.getBooksByIds(bookIds, 0, 20)).thenReturn(allBooks);
 
-        String uri = UriComponentsBuilder.newInstance().path("/myLikes").build().toUriString();
+        String uri = UriComponentsBuilder.newInstance().path("/myFavourites").build().toUriString();
 
         mockMvc.perform(get(uri)).andDo(print()).andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

@@ -149,6 +149,24 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser("USER")
+    @Test
+    public void addFavourite() throws Exception {
+        String uri = UriComponentsBuilder.newInstance().path("/library/books/1/add_favourite")
+                .build().toUriString();
+        mockMvc.perform(post(uri)).andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser("USER")
+    @Test
+    public void removeFavourite() throws Exception {
+        String uri = UriComponentsBuilder.newInstance().path("/library/books/1/remove_favourite")
+                .build().toUriString();
+        mockMvc.perform(post(uri)).andDo(print())
+                .andExpect(status().isOk());
+    }
+
     @Test
     public void getSingleBook_NotLoggedIn401() throws Exception {
         String uri = UriComponentsBuilder.newInstance().path("/library/books/{id}")

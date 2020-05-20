@@ -55,34 +55,34 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * Retrieves all book ids, that are liked by a single user.
-     * @param username the username of the user, whose liked book ids are to be retrieved.
-     * @return all ids of the liked books by the user.
+     * Retrieves all book ids, that are Favourite by a single user.
+     * @param username the username of the user, whose Favourite book ids are to be retrieved.
+     * @return all ids of the Favourite books by the user.
      */
-    public List<Integer> getBookIdsLikedByUser(String username) {
+    public List<Integer> getBookIdsFavouriteByUser(String username) {
         User user = userRepository.findByUsername(username);
-        return user.getLikedBooksIds();
+        return user.getFavouriteBooksIds();
     }
 
     /**
-     * Persists the id of the liked book in the user
+     * Persists the id of the Favourite book in the user
      * @param username the user's username
      * @param bookId the id of the book
      */
-    public void addLikedBookId(String username, int bookId) {
+    public void addFavouriteBookId(String username, int bookId) {
         User user = userRepository.findByUsername(username);
-        user.getLikedBooksIds().add(bookId);
+        user.getFavouriteBooksIds().add(bookId);
         userRepository.save(user);
     }
 
     /**
-     * Removes the id of the previously liked book in the user
+     * Removes the id of the previously Favourite book in the user
      * @param bookId the user's username
      * @param bookId the id of the book
      */
-    public void removeLikedBookId(String username, int bookId) {
+    public void removeFavouriteBookId(String username, int bookId) {
         User user = userRepository.findByUsername(username);
-        user.getLikedBooksIds().remove(bookId);
+        user.getFavouriteBooksIds().remove(bookId);
         userRepository.save(user);
     }
 }

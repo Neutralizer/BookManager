@@ -95,7 +95,6 @@ public class BookController {
     @PostMapping("/books/{id}/add_rating")
     public ResponseEntity incrementRating(Principal principal, @PathVariable int id){
         bookService.increaseRating(id);
-        userService.addLikedBookId(principal.getName(), id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -107,9 +106,33 @@ public class BookController {
     @PostMapping("/books/{id}/remove_rating")
     public ResponseEntity decrementRating(Principal principal, @PathVariable int id){
         bookService.decreaseRating(id);
-        userService.removeLikedBookId(principal.getName(), id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /**
+     * Add book to favourites.
+     * @param principal current logged in user.
+     * @param id the id of the book.
+     * @return Status OK if successful.
+     */
+    @PostMapping("/books/{id}/add_favourite")
+    public ResponseEntity addFavouriteBook(Principal principal, @PathVariable int id){
+        userService.addFavouriteBookId(principal.getName(), id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * Remove book from favourites.
+     * @param id the id of the book.
+     * @return Status OK if successful.
+     */
+    @PostMapping("/books/{id}/remove_favourite")
+    public ResponseEntity removeFavouriteBook(Principal principal, @PathVariable int id){
+        userService.removeFavouriteBookId(principal.getName(), id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
     @GetMapping(path = "/elk")
     public ResponseEntity generateLog() {
