@@ -43,8 +43,8 @@ public class BookController {
     @GetMapping(path = "/books", produces = "application/json")
     public ResponseEntity<List<Book>> getBooks(
             @RequestParam(required = false) String titleContaining,
-            @RequestParam(required = false, defaultValue = "0") int pageNum,
-            @RequestParam(required = false, defaultValue = "20") int entriesPerPage){
+            @RequestParam(required = false, defaultValue = "${books.default.pagenum}") int pageNum,
+            @RequestParam(required = false, defaultValue = "${books.default.entriesperpage}") int entriesPerPage){
         List<Book> booksList;
         if(!isEmpty(titleContaining)){
             booksList = bookService.getBookByTitleContaining(titleContaining,pageNum,entriesPerPage);

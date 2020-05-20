@@ -51,8 +51,8 @@ public class UserController {
      */
     @GetMapping("/myLikes")
     public ResponseEntity<List<Book>> getUserLikedBooks(Principal principal,
-                                                        @RequestParam(required = false, defaultValue = "0") int pageNum,
-                                                        @RequestParam(required = false, defaultValue = "20") int entriesPerPage){
+                                                        @RequestParam(required = false, defaultValue = "${books.default.pagenum}") int pageNum,
+                                                        @RequestParam(required = false, defaultValue = "${books.default.entriesperpage}") int entriesPerPage){
 
         List<Integer> bookIdsLikedByUser = userService.getBookIdsLikedByUser(principal.getName());
         List<Book> booksByIds = bookService.getBooksByIds(bookIdsLikedByUser, pageNum, entriesPerPage);
